@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
     public Mono<UserDTO> createUser(UserDTO dto, String password) {
         User user = mapper.toEntity(dto);
         user.setPasswordHash(passwordEncoder.encode(password));
@@ -43,7 +42,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public Mono<UserDTO> updateUser(Long id, UserDTO dto) {
         return repository.findById(id)
                 .switchIfEmpty(Mono.error(new RuntimeException("User not found with id: " + id)))
@@ -54,7 +52,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public Mono<Void> deleteUser(Long id) {
         return repository.findById(id)
                 .switchIfEmpty(Mono.error(new RuntimeException("User not found with id: " + id)))
