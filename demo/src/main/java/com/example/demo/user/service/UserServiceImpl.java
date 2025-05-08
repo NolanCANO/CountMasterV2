@@ -35,6 +35,13 @@ public class UserServiceImpl implements UserService {
                 .switchIfEmpty(Mono.error(new RuntimeException("User not found with id: " + id)))
                 .map(mapper::toDTO);
     }
+    
+    @Override
+    public Mono<UserDTO> getUserByUsername(String username) {
+        return repository.findByUsername(username)
+                .switchIfEmpty(Mono.error(new RuntimeException("User not found with username: " + username)))
+                .map(mapper::toDTO);
+    }
 
     @Override
     public Flux<UserDTO> getAllUsers() {
